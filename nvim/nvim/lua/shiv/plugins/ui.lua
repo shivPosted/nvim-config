@@ -2,14 +2,14 @@ return {
 	{
 		"folke/noice.nvim",
 		opts = function(_, opts)
-			-- Ensure opts.routes is initialized as a table
+			-- ensure opts.routes is initialized as a table
 			opts.routes = opts.routes or {}
 
-			-- Now safely insert routes
+			-- now safely insert routes
 			table.insert(opts.routes, {
 				filter = {
 					event = "notify",
-					find = "No information available",
+					find = "no information available",
 				},
 				opts = { skip = true },
 				routes = {
@@ -20,20 +20,20 @@ return {
 				},
 			})
 
-			-- Focus handling logic
+			-- focus handling logic
 			local focused = true
-			vim.api.nvim_create_autocmd("FocusGained", {
+			vim.api.nvim_create_autocmd("focusgained", {
 				callback = function()
 					focused = true
 				end,
 			})
-			vim.api.nvim_create_autocmd("FocusLost", {
+			vim.api.nvim_create_autocmd("focuslost", {
 				callback = function()
 					focused = false
 				end,
 			})
 
-			-- Ensure opts.routes is still a table and insert a new route
+			-- ensure opts.routes is still a table and insert a new route
 			table.insert(opts.routes, 1, {
 				filter = {
 					cond = function()
@@ -44,17 +44,17 @@ return {
 				opts = { stop = false },
 			})
 
-			-- Ensure opts.commands is initialized
+			-- ensure opts.commands is initialized
 			opts.commands = opts.commands or {}
 			opts.commands.all = {
-				-- Options for the message history
+				-- options for the message history
 				view = "split",
 				filter = {},
 				opts = { enter = true, format = "details" },
 			}
 
-			-- Handle markdown FileType
-			vim.api.nvim_create_autocmd("FileType", {
+			-- handle markdown filetype
+			vim.api.nvim_create_autocmd("filetype", {
 				pattern = "markdown",
 				callback = function(event)
 					vim.schedule(function()
@@ -63,35 +63,37 @@ return {
 				end,
 			})
 
-			-- Enable LSP doc border preset
+			-- enable lsp doc border preset
 			opts.presets = opts.presets or {}
 			opts.presets.lsp_doc_border = true
 		end,
 	},
 
+	-- {
+	-- 	"rcarriga/nvim-notify",
+	-- 	opts = {
+	-- 		timeout = 3000,
+	-- 	},
+	-- },
+
+	--animations
 	{
-		"rcarriga/nvim-notify",
-		opts = {
-			timeout = 3000,
-		},
+		"echasnovski/mini.animate",
+		-- event = "verylazy",
+		opts = function(_, opts)
+			opts.scroll = {
+				enable = false,
+			}
+		end,
 	},
-	-- animations({
-	-- 	"echasnovski/mini.animate",
-	-- 	event = "VeryLazy",
-	-- 	opts = function(_, opts)
-	-- 		opts.scroll = {
-	-- 			enable = false,
-	-- 		}
-	-- 	end,
-	-- }),
 
 	-- buffer line
 	-- {
 	-- 	"akinsho/bufferline.nvim",
-	-- 	event = "VeryLazy",
+	-- 	event = "verylazy",
 	-- 	keys = {
-	-- 		{ "<Tab>", "<Cmd>BufferLineCycleNext<CR>", desc = "Next tab" },
-	-- 		{ "<S-Tab>", "<Cmd>BufferLineCyclePrev<CR>", desc = "Prev tab" },
+	-- 		{ "<tab>", "<cmd>bufferlinecyclenext<cr>", desc = "next tab" },
+	-- 		{ "<s-tab>", "<cmd>bufferlinecycleprev<cr>", desc = "prev tab" },
 	-- 	},
 	-- 	opts = {
 	-- 		options = {
@@ -107,15 +109,15 @@ return {
 	{
 		"b0o/incline.nvim",
 		dependencies = { "craftzdog/solarized-osaka.nvim" },
-		event = "BufReadPre",
+		event = "bufreadpre",
 		priority = 1200,
 		config = function()
 			local colors = require("solarized-osaka.colors").setup()
 			require("incline").setup({
 				highlight = {
 					groups = {
-						InclineNormal = { guibg = colors.orange100, guifg = colors.base04 },
-						InclineNormalNC = { guifg = colors.violet700, guibg = colors.base03 },
+						inclinenormal = { guibg = colors.orange100, guifg = colors.base04 },
+						inclinenormalnc = { guifg = colors.violet700, guibg = colors.base03 },
 					},
 				},
 				window = { margin = { vertical = 0, horizontal = 1 } },
